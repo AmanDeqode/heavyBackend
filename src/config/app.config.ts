@@ -65,24 +65,6 @@ const schema = {
       env: 'DB_NAME',
     },
   },
-  accessTokenLifetime: {
-    doc: 'Access Token Lifetime',
-    format: Number,
-    default: 60,
-    env: 'ACCESS_TOKEN_LIFETIME_MIN',
-  },
-  refreshTokenLifetime: {
-    doc: 'Refresh Token Lifetime',
-    format: Number,
-    default: 5,
-    env: 'REFRESH_TOKEN_LIFETIME_MIN',
-  },
-  secretHex: {
-    doc: 'Secret Hex',
-    format: String,
-    default: '7472756546692d7661756c742d4465716f6465',
-    env: 'SECRET_HEX',
-  },
 };
 
 dotenv.config();
