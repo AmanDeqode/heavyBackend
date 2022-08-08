@@ -55,13 +55,13 @@ const schema = {
     port: {
       doc: 'Database Port Number',
       format: Number,
-      default: 5432,
+      default: 5436,
       env: 'DB_PORT',
     },
     name: {
       doc: 'Database Name',
       format: String,
-      default: 'nodejs-boilerplate',
+      default: 'heavyDB',
       env: 'DB_NAME',
     },
   },
