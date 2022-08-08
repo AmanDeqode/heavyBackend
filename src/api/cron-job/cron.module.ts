@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HashRepository } from 'src/database/repositories/hash.repository';
 import { CronService } from './cron.service';
-import { BullBoardController } from '../bull-board/bull-board.controller';
 
 @Module({
   imports: [
@@ -25,6 +24,6 @@ import { BullBoardController } from '../bull-board/bull-board.controller';
     }),
     TypeOrmModule.forFeature([HashRepository]),
   ],
-  providers: [CronService, BullBoardController],
+  providers: [CronService],
 })
 export class CronModule {}

@@ -6,7 +6,6 @@ import { HashController } from './hash.controller';
 import { HashService } from './hash.service';
 import { HashRepository } from 'src/database/repositories/hash.repository';
 import { CronModule } from '../cron-job/cron.module';
-import { BullBoardController } from '../bull-board/bull-board.controller';
 
 @Module({
   imports: [
@@ -28,7 +27,7 @@ import { BullBoardController } from '../bull-board/bull-board.controller';
     TypeOrmModule.forFeature([HashRepository]),
     CronModule,
   ],
-  controllers: [HashController, BullBoardController],
+  controllers: [HashController],
   providers: [HashService],
   exports: [HashService],
 })
