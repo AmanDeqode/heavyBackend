@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HashDto } from './dto/hash.dto';
 import { HashRepository } from 'src/database/repositories/hash.repository';
@@ -12,9 +12,7 @@ export class HashService {
 
   async uploadData(hashDto: HashDto) {
     try {
-      console.log('req.connection.remoteAddress', hashDto);
       const { inputHex, ipAddress } = hashDto;
-      console.log('hashDto', hashDto);
       const [checkIP, ipError] = await of(
         this.hashRepository.find({
           where: {
@@ -28,17 +26,19 @@ export class HashService {
         const createdDate = checkIP[0]?.createdAt;
         const currentEpoch = Math.floor(Date.now() / 1000);
         const createdEpoch = moment(createdDate).unix();
-        if (createdEpoch - currentEpoch < parseInt(process.env.LIMIT)) {
+        if (currentEpoch - createdEpoch > parseInt(process.env.LIMIT)) {
           const result = this.save(inputHex, ipAddress);
           return result;
         } else {
-          return {
-            message: 'hash value is already present',
-          };
+          throw new HttpException(
+            'same hash with same IP only accept after 24 hr',
+            HttpStatus.UNAUTHORIZED,
+          );
         }
+      } else {
+        const response = this.save(inputHex, ipAddress);
+        return response;
       }
-      const response = this.save(inputHex, ipAddress);
-      return response;
     } catch (error) {
       throw new Error(error.message);
     }
