@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HashDto } from './dto/hash.dto';
 import { HashRepository } from 'src/database/repositories/hash.repository';
@@ -13,6 +13,9 @@ export class HashService {
   async uploadData(hashDto: HashDto) {
     try {
       const { inputHex, ipAddress } = hashDto;
+      if (!inputHex || !ipAddress) throw new Error('Invalid input data');
+      const isVaildHex = this.validateInputHex(inputHex);
+      if (isVaildHex === null) throw new Error('Given input hex is invalid');
       const [checkIP, ipError] = await of(
         this.hashRepository.find({
           where: {
@@ -58,6 +61,11 @@ export class HashService {
         providedHex: inputHex,
       };
     }
+  }
+
+  validateInputHex(inputHex: string) {
+    const hexaPattern = /^[0-9a-fA-F]+$/;
+    return inputHex.match(hexaPattern);
   }
 
   async getHashInfo(hex: string) {

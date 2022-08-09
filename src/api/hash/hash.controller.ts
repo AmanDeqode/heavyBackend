@@ -15,7 +15,6 @@ export class HashController {
 
   @Post('/upload')
   uploadData(@Body() hashDto: HashDto) {
-    console.log('hashDto', hashDto);
     return this.hashService.uploadData(hashDto);
   }
 }
