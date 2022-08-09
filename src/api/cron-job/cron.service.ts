@@ -7,6 +7,7 @@ import { Queue } from 'bull';
 import { Hash, ResultStatusEnum } from 'src/database/entities/hash.entity';
 import { HashRepository } from 'src/database/repositories/hash.repository';
 import dotenv from 'dotenv';
+import BigNumber from 'bignumber.js';
 
 dotenv.config();
 
@@ -35,10 +36,10 @@ export class CronService {
             id,
             input_hex,
             nonce_range: {
-              start_process_nonce: 0,
-              end_process_nonce:
-                parseInt(last_process_nonce) +
-                parseInt(process.env.MAX_PROCESS),
+              start_process_nonce: new BigNumber(last_process_nonce),
+              end_process_nonce: new BigNumber(last_process_nonce).plus(
+                new BigNumber(process.env.MAX_PROCESS),
+              ),
             },
             status,
           });
@@ -47,11 +48,11 @@ export class CronService {
               id: id,
             },
             {
-              last_process_nonce: addJob.data.nonce_range.end_process_nonce,
+              last_process_nonce:
+                addJob.data.nonce_range.end_process_nonce.toString(),
             },
           );
         } catch (error) {
-          console.log('codsed');
           console.log(error);
         }
       }
