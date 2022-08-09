@@ -21,8 +21,7 @@ export class HashService {
         }),
       );
       if (ipError) throw new Error('something went wrong');
-
-      if (checkIP) {
+      if (checkIP && checkIP.length > 0) {
         const createdDate = checkIP[0]?.createdAt;
         const currentEpoch = Math.floor(Date.now() / 1000);
         const createdEpoch = moment(createdDate).unix();
@@ -30,10 +29,10 @@ export class HashService {
           const result = this.save(inputHex, ipAddress);
           return result;
         } else {
-          throw new HttpException(
-            'same hash with same IP only accept after 24 hr',
-            HttpStatus.UNAUTHORIZED,
-          );
+          return {
+            message: 'same hash with same IP only accept after 24 hr',
+            statusCode: 401,
+          };
         }
       } else {
         const response = this.save(inputHex, ipAddress);

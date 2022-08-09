@@ -43,6 +43,7 @@ export class CronService {
             },
             status,
           });
+          console.log('job id', addJob.id);
           await this.hashRepository.update(
             {
               id: id,

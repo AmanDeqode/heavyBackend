@@ -17,7 +17,7 @@ const schema = {
     port: {
       doc: 'The port to bind.',
       format: 'port',
-      default: 3000,
+      default: 3001,
       env: 'PORT',
     },
   },
