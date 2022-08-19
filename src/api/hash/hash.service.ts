@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HashDto } from './dto/hash.dto';
-import { HashRepository } from 'src/database/repositories/hash.repository';
-import { Hash, ResultStatusEnum } from 'src/database/entities/hash.entity';
+import { HashRepository } from '../../database/repositories/hash.repository';
+import { Hash, ResultStatusEnum } from '../../database/entities/hash.entity';
 import moment from 'moment';
 import { of } from 'await-of';
 
